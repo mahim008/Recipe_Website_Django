@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block start %}
+
+    <h1>I am mahim</h1>
+    <hr>
+    <h2>I wanna learn django!</h2>
+    <hr>
+    <a href="/about/">About</a>
+    |
+    <a href="/contact/">Contact</a>
+    {{ peoples }}
+    <table class="container">
+        <tr>
+            <td>SL no.</td>
+            <td>Name</td>
+            <td>Age</td>
+            <td>Can vote</td>
+        </tr>
+        {% for people in peoples %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ people.name }}</td>
+            <td>{{ people.age }}</td>
+            <td {% if people.age < 18 %} style="background: red" {% else %} style="background:green" {% endif %}>
+                {% if people.age >= 18 %}
+                Yes
+                {% else %}
+                No
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
