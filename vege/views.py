@@ -4,6 +4,12 @@ from .models import *
 
 # Create your views here.
 
+def login_page(request):
+    return render(request, 'login.html')
+
+def register_page(request):
+    return render(request, 'register.html')
+
 def recipes(request):
     global context
     if request.method == "POST":
