@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import *
 
@@ -7,6 +8,23 @@ from .models import *
 # Create your views here.
 
 def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not User.objects.filter(username=username):
+            messages.error(request, 'Invalid username')
+            return redirect('/login/')
+
+        user = authenticate(username=username, password=password)
+
+        if user is None:
+            messages.error(request, 'Invalid password! Try again.')
+            return redirect('/login/')
+        else:
+            login(request, user)
+            return redirect('/recipes/')
+
     return render(request, 'login.html')
 
 
@@ -19,7 +37,7 @@ def register_page(request):
 
         user = User.objects.filter(username=username)
         if user.exists():
-            messages.info(request,'Username alreay taken! Try another username.')
+            messages.info(request, 'Username alreay taken! Try another username.')
             return redirect('/register/')
         user = User.objects.create(
             first_name=first_name,
