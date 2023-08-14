@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 
@@ -13,13 +14,13 @@ def login_page(request):
         password = request.POST.get('password')
 
         if not User.objects.filter(username=username):
-            messages.error(request, 'Invalid username')
+            messages.error(request, 'Invalid username or password! Try again.')
             return redirect('/login/')
 
         user = authenticate(username=username, password=password)
 
         if user is None:
-            messages.error(request, 'Invalid password! Try again.')
+            messages.error(request, 'Invalid username or password! Try again.')
             return redirect('/login/')
         else:
             login(request, user)
@@ -27,6 +28,9 @@ def login_page(request):
 
     return render(request, 'login.html')
 
+def logout_page(request):
+    logout(request)
+    return redirect('/login/')
 
 def register_page(request):
     if request.method == "POST":
@@ -52,6 +56,7 @@ def register_page(request):
     return render(request, 'register.html')
 
 
+@login_required(login_url='/login/')
 def recipes(request):
     global context
     if request.method == "POST":

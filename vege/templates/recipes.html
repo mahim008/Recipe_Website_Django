@@ -2,7 +2,7 @@
 {% block start %}
 
 <div class="container mt-5">
-    <u><h2 align="center">Hello <b>{{ request.user.username }}</b></h2></u><br>
+
     <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
        {% csrf_token %}
         <h2 align="center">Add  recipe</h2>
