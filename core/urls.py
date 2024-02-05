@@ -24,7 +24,7 @@ from home.views import *
 from vege.views import *
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', recipes, name='recipes'),
     path('mahim', mahim, name='mahim'),
     path('recipes/', recipes, name='recipes'),
     path('recipes/delete-recipe/<id>/', delete_recipe, name='delete_recipe'),
